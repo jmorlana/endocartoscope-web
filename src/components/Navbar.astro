@@ -1,0 +1,170 @@
+---
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isHome   = pathname === '/';
+
+const navLinks = [
+  { href: '#technology', label: 'Technology' },
+  { href: '#team',       label: 'Team'       },
+  { href: '/careers',    label: 'Careers'    },
+  { href: '/media',      label: 'Media'      },
+  { href: '#contact',    label: 'Contact'    },
+];
+
+const resolveHref = (href: string) =>
+  !isHome && href.startsWith('#') ? `/${href}` : href;
+
+// Pathname-based active state (sub-pages only)
+const isPageActive = (href: string) =>
+  (href === '/careers' && pathname === '/careers') ||
+  (href === '/media'   && pathname === '/media');
+
+// Section id for anchor links — used as data-section attr for IO on home page
+const sectionId = (href: string) => href.startsWith('#') ? href.slice(1) : null;
+---
+
+<header
+  id="navbar"
+  data-home={String(isHome)}
+  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+>
+  <nav class="w-full px-6 lg:px-12 h-16 flex items-center justify-between">
+
+    <!-- Wordmark + logo mark -->
+    <a href="/" class="flex items-center gap-3 group" aria-label="EndoCartoScope — home">
+      <img
+        src="/images/logos/ecs.png"
+        alt="EndoCartoScope logo"
+        class="w-7 h-7 shrink-0 object-contain"
+        loading="eager"
+      />
+      <span class="font-serif text-[1.3rem] text-white leading-none tracking-tight group-hover:text-accent-light transition-colors duration-200">
+        EndoCartoScope
+      </span>
+    </a>
+
+    <!-- Desktop nav -->
+    <ul class="hidden md:flex items-center gap-8" role="list">
+      {navLinks.map(link => (
+        <li>
+          <a
+            href={resolveHref(link.href)}
+            data-section={sectionId(link.href) ?? undefined}
+            class:list={[
+              'label py-1 transition-colors duration-200',
+              isPageActive(link.href) ? 'text-white' : 'text-white/60 hover:text-white',
+            ]}
+            style="font-size: 0.75rem;"
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Mobile hamburger -->
+    <button
+      id="menu-btn"
+      class="md:hidden flex flex-col justify-center gap-[5px] w-9 h-9 p-1.5"
+      aria-label="Toggle navigation"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span id="bar1" class="block w-full h-px bg-white transition-all duration-300 origin-center"></span>
+      <span id="bar2" class="block w-full h-px bg-white transition-all duration-300 origin-center"></span>
+      <span id="bar3" class="block w-full h-px bg-white transition-all duration-300 origin-center"></span>
+    </button>
+  </nav>
+
+  <!-- Mobile dropdown -->
+  <div
+    id="mobile-menu"
+    class="hidden md:hidden border-t border-white/10"
+    style="background: rgba(5,13,16,0.97); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);"
+  >
+    <ul class="px-6 lg:px-12 py-6 flex flex-col gap-5" role="list">
+      {navLinks.map(link => (
+        <li>
+          <a
+            href={resolveHref(link.href)}
+            data-section-mobile={sectionId(link.href) ?? undefined}
+            class:list={[
+              'label block py-1 transition-colors duration-200',
+              isPageActive(link.href) ? 'text-white' : 'text-white/65 hover:text-white',
+            ]}
+            style="font-size: 0.75rem;"
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</header>
+
+<script>
+  const navbar  = document.getElementById('navbar')!;
+  const isHome  = navbar.dataset.home === 'true';
+
+  // Non-home pages: start dark immediately
+  if (!isHome) navbar.classList.add('scrolled');
+
+  // Home page: transparent → dark on scroll
+  if (isHome) {
+    const onScroll = () => navbar.classList.toggle('scrolled', window.scrollY > 60);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  // ── Active section highlighting (home page only) ──────────────────────────
+  // Uses IntersectionObserver with a detection band in the upper viewport.
+  // When a section's top enters the band, its nav link is highlighted.
+  if (isHome) {
+    const desktopLinks = Array.from(
+      document.querySelectorAll<HTMLElement>('nav a[data-section]')
+    );
+    const mobileLinks = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-section-mobile]')
+    );
+
+    const setActive = (sectionId: string) => {
+      desktopLinks.forEach(a => {
+        const active = a.dataset.section === sectionId;
+        a.classList.toggle('nav-link-active', active);
+        a.classList.toggle('text-white/60', !active);
+      });
+      mobileLinks.forEach(a => {
+        const active = a.dataset.sectionMobile === sectionId;
+        a.classList.toggle('nav-link-active', active);
+        a.classList.toggle('text-white/65', !active);
+      });
+    };
+
+    // Detection band: fires when a section's leading edge enters the top ~30% of the viewport
+    const secObs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); }),
+      { rootMargin: '-10% 0px -65% 0px', threshold: 0 }
+    );
+
+    document.querySelectorAll('section[id]').forEach(s => secObs.observe(s));
+  }
+
+  // ── Mobile menu toggle ────────────────────────────────────────────────────
+  const menuBtn    = document.getElementById('menu-btn')!;
+  const mobileMenu = document.getElementById('mobile-menu')!;
+  const bar1 = document.getElementById('bar1')!;
+  const bar2 = document.getElementById('bar2')!;
+  const bar3 = document.getElementById('bar3')!;
+  let isOpen = false;
+
+  const setOpen = (open: boolean) => {
+    isOpen = open;
+    mobileMenu.classList.toggle('hidden', !open);
+    menuBtn.setAttribute('aria-expanded', String(open));
+    bar1.style.transform = open ? 'translateY(6px) rotate(45deg)'   : '';
+    bar2.style.opacity   = open ? '0' : '1';
+    bar3.style.transform = open ? 'translateY(-6px) rotate(-45deg)' : '';
+  };
+
+  menuBtn.addEventListener('click', () => setOpen(!isOpen));
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+</script>

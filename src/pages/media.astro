@@ -1,0 +1,229 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// ── Publications ──────────────────────────────────────────────────────────────
+// To add a paper: copy one of the objects below and fill in the fields.
+// type: 'Journal' | 'Conference' | 'Preprint' | 'Workshop'
+const publications: {
+  year: string; title: string; authors: string; venue: string; url: string; type: string;
+}[] = [
+  // Placeholder — replace with actual publication when available:
+  // {
+  //   year:    '2025',
+  //   type:    'Preprint',
+  //   title:   'EndoCartoScope: Towards Real-time 3D Mapping for Clinical Endoscopy',
+  //   authors: 'Rodríguez-Puigvert J., Morlana J., Montiel J.M.M., Tardós J.D.',
+  //   venue:   'arXiv preprint',
+  //   url:     'https://arxiv.org/abs/...',
+  // },
+];
+
+// ── News & Press ──────────────────────────────────────────────────────────────
+// To add an item: copy one object, set date as 'YYYY-MM-DD', fill title/source/url.
+const news = [
+  {
+    date:        '2026-03-01',
+    title:       'CLiMB: Colonoscopy 3D Mapping Benchmark will appear as a sub-challenge at EndoVis, MICCAI 2026',
+    source:      'MICCAI 2026',
+    url:         'https://www.synapse.org/Synapse:syn74370700/wiki/', // TODO: replace with Synapse URL when available
+    description: 'We are organizing CLiMB, a sub-challenge of the Endoscopic Vision Challenge (EndoVis) at MICCAI 2026, benchmarking localization and mapping for colonoscopy.',
+  },
+  {
+    date:   '2025-07-01',
+    title:  'EndoCartoScope: EIC Transition Project 101211633 begins',
+    source: 'CORDIS — EU Research Results',
+    url:    'https://cordis.europa.eu/project/id/101211633',
+  },
+  // Add new items here:
+  // {
+  //   date:   'YYYY-MM-DD',
+  //   title:  'Title of article or announcement',
+  //   source: 'Outlet or publication name',
+  //   url:    'https://...',
+  // },
+];
+
+// ── Funding & Recognition ─────────────────────────────────────────────────────
+const awards = [
+  {
+    year:   '2025',
+    amount: '€ 2.5M',
+    title:  'EIC Transition Grant',
+    body:   'European Innovation Council — Horizon Europe',
+  },
+];
+
+const formatDate = (iso: string) =>
+  new Date(iso).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<Layout
+  title="Media — EndoCartoScope"
+  description="EndoCartoScope in the media — scientific publications, press coverage, awards and project updates."
+>
+
+  <!-- ── Page header ── -->
+  <section class="bg-dark pt-28 pb-16">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="fade-up mb-3">
+        <span class="label text-accent-light/60">Press &amp; Publications</span>
+      </div>
+      <h1
+        class="fade-up font-serif text-white mb-5 tracking-tight"
+        style="font-size: clamp(2.2rem, 5vw, 3.5rem); line-height: 1.05; font-weight: 400;"
+      >
+        Media
+      </h1>
+      <p class="fade-up text-white/50 text-base leading-relaxed" style="font-weight: 300;">
+        Scientific publications, press coverage, and project updates from the EndoCartoScope team.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── News & Press (first) ── -->
+  <section class="py-20 bg-bg">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="fade-up flex items-baseline justify-between mb-4 pb-4 border-b border-border">
+        <span class="label text-muted">News &amp; Press</span>
+        <span class="label text-muted">{news.length} item{news.length !== 1 ? 's' : ''}</span>
+      </div>
+      <p class="fade-up font-serif text-ink/70 mb-10" style="font-size: clamp(1.25rem, 2vw, 1.6rem); font-weight: 400; font-style: italic;">
+        Recent updates and milestones from the EndoCartoScope project.
+      </p>
+
+      <div class="fade-up flex flex-col divide-y divide-border/50">
+        {news.map(item => (
+          <div class="py-6 flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-8">
+            <time
+              datetime={item.date}
+              class="label text-muted shrink-0"
+              style="font-size:0.6rem; min-width:9rem;"
+            >
+              {formatDate(item.date)}
+            </time>
+            <div class="flex flex-col gap-1">
+              <a
+                href={item.url}
+                target="_blank" rel="noopener noreferrer"
+                class="text-ink font-medium text-sm hover:text-accent transition-colors link-accent"
+              >
+                {item.title}
+              </a>
+              {'description' in item && item.description && (
+                <p class="text-muted text-xs leading-relaxed mt-1">{item.description}</p>
+              )}
+              <span class="label" style="font-size:0.58rem;">{item.source}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="fade-up mt-12 pt-8 border-t border-border text-center">
+        <p class="text-muted text-sm mb-3">
+          For press inquiries and interview requests:
+        </p>
+        <a
+          href="mailto:endocartoscope@unizar.es?subject=Press Inquiry"
+          class="label text-accent link-accent"
+          style="font-size:0.6rem;"
+        >
+          endocartoscope@unizar.es ↗
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Funding & Recognition (second) ── -->
+  <section class="py-20 bg-surface">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="fade-up mb-4 pb-4 border-b border-border">
+        <span class="label text-muted">Funding &amp; Recognition</span>
+      </div>
+      <p class="fade-up font-serif text-ink/70 mb-10" style="font-size: clamp(1.25rem, 2vw, 1.6rem); font-weight: 400; font-style: italic;">
+        Backing the development of intelligent endoscopy.
+      </p>
+
+      <div class="fade-up grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {awards.map(a => (
+          <div class="card-hover border border-accent/20 p-8" style="background: rgba(178,235,243,0.1);">
+            <p class="label text-accent mb-3" style="font-size:0.6rem;">{a.year}</p>
+            <p class="font-serif text-4xl text-accent mb-3" style="font-weight:300; letter-spacing:-0.02em;">{a.amount}</p>
+            <h3 class="font-serif text-xl text-ink mb-1" style="font-weight:500;">{a.title}</h3>
+            <p class="label text-muted">{a.body}</p>
+          </div>
+        ))}
+        <!-- Placeholder slot -->
+        <div class="border border-dashed border-border p-8 flex items-center justify-center">
+          <p class="label text-muted/50 text-center">More awards<br />coming soon</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Scientific Publications (third) ── -->
+  <section class="py-20 bg-bg">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="fade-up flex items-baseline justify-between mb-4 pb-4 border-b border-border">
+        <span class="label text-muted">Scientific Publications</span>
+        <span class="label text-accent">{publications.length} paper{publications.length !== 1 ? 's' : ''}</span>
+      </div>
+      <p class="fade-up font-serif text-ink/70 mb-10" style="font-size: clamp(1.25rem, 2vw, 1.6rem); font-weight: 400; font-style: italic;">
+        Peer-reviewed research from the EndoCartoScope team.
+      </p>
+
+      {publications.length > 0 ? (
+        <div class="flex flex-col divide-y divide-border">
+          {publications.map(pub => (
+            <div class="fade-up py-8 grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8">
+              <div class="lg:col-span-2 flex flex-row lg:flex-col gap-3 lg:gap-2 items-center lg:items-start">
+                <span class="label text-accent" style="font-size:0.6rem;">{pub.year}</span>
+                <span class="label border border-border text-muted px-2 py-0.5 rounded-sm" style="font-size:0.56rem;">{pub.type}</span>
+              </div>
+              <div class="lg:col-span-10">
+                <a
+                  href={pub.url}
+                  target="_blank" rel="noopener noreferrer"
+                  class="font-serif text-lg md:text-xl text-ink hover:text-accent transition-colors block mb-2 link-accent"
+                  style="font-weight:500;"
+                >
+                  {pub.title}
+                </a>
+                <p class="label text-muted mb-1">{pub.authors}</p>
+                <p class="text-muted text-xs italic">{pub.venue}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="fade-up border border-dashed border-border py-10 px-8 text-center">
+          <p class="text-muted text-sm leading-relaxed">
+            Publications forthcoming. Follow the project on CORDIS for updates.
+          </p>
+          <a
+            href="https://cordis.europa.eu/project/id/101211633"
+            target="_blank" rel="noopener noreferrer"
+            class="inline-block mt-4 label text-accent link-accent"
+            style="font-size:0.6rem;"
+          >
+            View project on CORDIS ↗
+          </a>
+        </div>
+      )}
+
+    </div>
+  </section>
+
+  <script>
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }),
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+  </script>
+
+</Layout>

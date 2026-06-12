@@ -1,0 +1,626 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// ── Team data ─────────────────────────────────────────────────────────────────
+// Photos:  place square images (≥ 400×400 px) at public/images/team/[slug].jpg
+// Socials: fill in URLs as they become available; omit the field to hide the icon
+interface TeamMember {
+  name: string; role: string; bio: string; initials: string; photo: string;
+  scholar?: string; twitter?: string; linkedin?: string;
+}
+const team: TeamMember[] = [
+  {
+    name: 'Javier Rodríguez-Puigvert',
+    role: 'Co-founder',
+    bio:  'Computer vision researcher bridging spatial AI and clinical endoscopy.',
+    initials: 'JR',
+    photo: '/images/team/javier-rodriguez-puigvert.jpg',
+    scholar:  'https://scholar.google.es/citations?hl=es&authuser=1&user=0yxrPb4AAAAJ',
+    // twitter:  'https://twitter.com/...',
+    linkedin: 'https://www.linkedin.com/in/javier-rodriguez-puigvert-b4642a66/',
+  },
+  {
+    name: 'Javier Morlana',
+    role: 'Co-founder',
+    bio:  'Computer vision researcher bridging spatial AI and clinical endoscopy.',
+    initials: 'JM',
+    photo: '/images/team/javier-morlana.jpg',
+    scholar:  'https://scholar.google.es/citations?user=1-DJMB8AAAAJ&hl=es&authuser=1',
+    // twitter:  'https://twitter.com/...',
+    linkedin: 'https://www.linkedin.com/in/javiermorlana/',
+  },
+  {
+    name: 'Richard Elvira',
+    role: 'SLAM Engineer',
+    bio:  'Co-author of ORB-SLAM3.',
+    initials: 'RE',
+    photo: '/images/team/richard-elvira.jpg',
+    scholar: 'https://scholar.google.es/citations?user=u9bkFsIAAAAJ&hl=es&authuser=1&oi=ao',
+  },
+  {
+    name: 'Ignacio Pastore',
+    role: 'Intern',
+    bio:  'Biomed engineer.',
+    initials: 'IP',
+    photo: '/images/team/ignacio-pastore.jpeg',
+    linkedin: 'https://www.linkedin.com/in/ignacio-pastore-benaim/',
+  },
+  {
+    name: 'Bruno Santos',
+    role: 'Intern',
+    bio:  'Making dense colon maps.',
+    initials: 'BS',
+    photo: '/images/team/bruno-santos.JPG',
+    linkedin: 'https://www.linkedin.com/in/bruno-eduardo-cruz-santos/',
+  },
+  {
+    name: 'Raúl Iranzo',
+    role: 'PhD Student',
+    bio:  'Reconstructing endoscopy with light cues.',
+    initials: 'RI',
+    photo: '/images/team/raul-iranzo.jpg',
+    scholar: 'https://scholar.google.es/citations?user=tqubbHoAAAAJ&hl=es&authuser=1&oi=ao',
+  },
+  {
+    name: 'José M. M. Montiel',
+    role: 'Scientific Advisor',
+    bio:  'Professor of robotics and computer vision; co-author of ORB-SLAM.',
+    initials: 'JMM',
+    photo: '/images/team/jose-mm-montiel.jpg',
+    scholar: 'https://scholar.google.es/citations?user=D99JRxwAAAAJ&hl=es&authuser=1',
+  },
+  {
+    name: 'Juan D. Tardós',
+    role: 'Scientific Advisor',
+    bio:  'Co-creator of ORB-SLAM3, the world\'s most cited visual SLAM system.',
+    initials: 'JDT',
+    photo: '/images/team/juan-d-tardos.jpg',
+    scholar: 'https://scholar.google.es/citations?user=TVf1gw0AAAAJ&hl=es&authuser=1',
+  },
+  {
+    name: 'Javier Civera',
+    role: 'Scientific Advisor',
+    bio:  'Expert in probabilistic SLAM, scene understanding and learning-based vision.',
+    initials: 'JC',
+    photo: '/images/team/javier-civera.jpg',
+    scholar: 'https://scholar.google.es/citations?hl=es&authuser=1&user=j_sMzokAAAAJ',
+  },
+  {
+    name: 'Rubén Martínez-Cantín',
+    role: 'Scientific Advisor',
+    bio:  'Specialist in Bayesian optimisation and autonomous systems.',
+    initials: 'RMC',
+    photo: '/images/team/ruben-martinez-cantin.jpg',
+    scholar: 'https://scholar.google.es/citations?hl=es&authuser=1&user=qFjif58AAAAJ',
+  },
+  {
+    name: 'Ángel Lanas',
+    role: 'Medical Advisor',
+    bio:  'Gastroenterologist.',
+    initials: 'AL',
+    photo: '/images/team/angel-lanas.png',
+    scholar: 'https://scholar.google.es/citations?user=fud1i3QAAAAJ&hl=es&authuser=1&oi=ao',
+  },
+  {
+    name: 'Carlos Sostres',
+    role: 'Medical Advisor',
+    bio:  'Gastroenterologist.',
+    initials: 'CS',
+    photo: '/images/team/carlos-sostres.png',
+    // scholar: 'https://scholar.google.es/citations?hl=es&authuser=1&user=qFjif58AAAAJ',
+  },
+];
+
+// ── Consortium partners ───────────────────────────────────────────────────────
+// Logos: place image files at public/images/logos/[slug].png (or .svg).
+// Text name is always visible; image is shown above it when available.
+const partners = [
+  {
+    href: 'https://unizar.es/',
+    logo: '/images/logos/uz.png',
+    name: 'Universidad de Zaragoza',
+    desc: 'Project Lead',
+  },
+  {
+    href: 'https://www.iisaragon.es/',
+    logo: '/images/logos/iisa.png',
+    name: 'IIS Aragón',
+    desc: 'Clinical Validator',
+  },
+  {
+    href: 'https://odin-vision.com',
+    logo: '/images/logos/odin.png',
+    name: 'Odin Vision',
+    desc: 'Medtech Advisor',
+  },
+];
+
+---
+
+<Layout
+  title="EndoCartoScope — Spatial AI for Medical Endoscopy"
+  description="EndoCartoScope is building a spatial AI perception layer for clinical endoscopes — real-time 3D mapping, coverage assessment, AR navigation, and quantitative measurement. EU EIC Transition project at the University of Zaragoza."
+>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<!-- 1. HERO                                                                    -->
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section
+  id="hero"
+  class="relative min-h-screen flex items-center justify-center overflow-hidden bg-dark"
+>
+  <!-- Animated dot grid — CSS only, no JS -->
+  <div class="absolute inset-0 hero-grid" aria-hidden="true"></div>
+
+  <!-- Radial teal glow from bottom-centre for depth -->
+  <div
+    class="absolute inset-0 pointer-events-none"
+    style="background: radial-gradient(ellipse 85% 55% at 50% 110%, rgba(4,153,169,0.13) 0%, transparent 70%);"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Content -->
+  <div class="relative z-10 max-w-3xl mx-auto px-6 text-center py-32">
+
+    <!-- Logo mark -->
+    <div class="hero-animate d1 flex justify-center mb-10">
+      <img
+        src="/images/logos/ecs.png"
+        alt="EndoCartoScope logo"
+        class="w-16 h-16 md:w-20 md:h-20 object-contain"
+        loading="eager"
+      />
+    </div>
+
+    <!-- Wordmark -->
+    <h1 class="hero-animate d2 font-serif text-white mb-5 tracking-tight"
+        style="font-size: clamp(2.4rem, 7vw, 4.25rem); line-height: 1.05;">
+      Endo<span class="gradient-text">Carto</span>Scope
+    </h1>
+
+    <!-- Tagline -->
+    <p class="hero-animate d3 label text-accent-light/80 mb-10" style="letter-spacing: 0.22em;">
+      Spatial AI for Medical Endoscopy
+    </p>
+
+    <!-- One-paragraph description -->
+    <p class="hero-animate d4 text-white/60 text-base md:text-lg leading-relaxed max-w-2xl mx-auto mb-12"
+       style="font-weight: 300;">
+      We are building a spatial AI perception layer for clinical endoscopes —
+      software that enables real-time 3D reconstruction, automated coverage assessment,
+      AR-guided navigation, and quantitative lesion measurement.
+      An early-stage R&amp;D programme at the University of Zaragoza,
+      funded by the EU EIC Transition programme.
+    </p>
+
+    <!-- EU badge + CTA -->
+    <div class="hero-animate d5 flex flex-col sm:flex-row items-center justify-center gap-5">
+
+      <!-- EU EIC Transition badge -->
+      <div
+        class="inline-flex items-center gap-3 border border-white/12 rounded-sm px-4 py-2.5"
+        style="background: rgba(255,255,255,0.04);"
+      >
+        <img
+          src="/images/logos/eu.jpg"
+          alt="European Union flag"
+          class="w-10 h-auto rounded-[2px] object-contain shrink-0"
+          loading="lazy"
+        />
+        <div class="text-left">
+          <p class="label text-accent-light/70" style="font-size:0.58rem;">EIC Transition Programme</p>
+          <p class="text-white/55 text-xs mt-0.5">Grant No. 101211633</p>
+        </div>
+      </div>
+
+      <!-- CTA: scroll to contact -->
+      <a
+        href="#contact"
+        class="inline-flex items-center gap-2 bg-accent text-white px-7 py-3 text-sm font-sans font-medium hover:bg-accent/90 transition-colors duration-200"
+      >
+        Get in touch
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Scroll chevron -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce pointer-events-none" aria-hidden="true">
+    <svg width="20" height="12" viewBox="0 0 20 12" fill="none">
+      <path d="M1 1l9 9 9-9" stroke="rgba(4,153,169,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<!-- 2. TECHNOLOGY                                                               -->
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="technology" class="py-24 md:py-32 bg-bg">
+  <div class="max-w-6xl mx-auto px-6">
+
+    <div class="fade-up mb-3">
+      <span class="label text-accent">Research &amp; Development</span>
+    </div>
+    <h2 class="fade-up text-ink mb-6" style="font-size: clamp(2.4rem, 4.5vw, 3.25rem);">Technology</h2>
+    <p class="fade-up text-muted text-base md:text-lg mb-16 leading-relaxed" style="font-weight:300;">
+      We are developing a software-only spatial intelligence layer that makes standard
+      flexible endoscopes spatially aware — transforming a passive camera into an active
+      navigational instrument, without hardware modifications.
+    </p>
+
+    <!-- Demo video -->
+    <div class="fade-up mb-14 overflow-hidden border border-border rounded-sm bg-dark">
+      <video
+        autoplay muted loop playsinline
+        preload="none"
+        poster="/images/demo-poster.jpg"
+        class="w-full block"
+        style="aspect-ratio: 16/9; object-fit: cover;"
+      >
+        <source src="/video/demo.mp4" type="video/mp4" />
+      </video>
+    </div>
+
+    <!-- 4 feature cards: 2×2 on desktop, 1 col on mobile -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+      <!-- Card 1: Real-time 3D Mapping -->
+      <div class="fade-up delay-1 card-hover bg-surface border border-border p-8 rounded-sm">
+        <div class="text-accent mb-6 w-10 h-10">
+          <!-- Lucide: box (3D package) -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+               stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+            <line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+        </div>
+        <h3 class="font-serif text-xl md:text-2xl text-ink mb-3" style="font-weight:500;">
+          Real-time 3D Mapping
+        </h3>
+        <p class="text-muted text-sm leading-relaxed">
+          Dense reconstruction of the mucosal cavity during a standard procedure,
+          using only the existing camera feed. No depth sensors. No hardware modifications.
+        </p>
+      </div>
+
+      <!-- Card 2: Coverage Assessment -->
+      <div class="fade-up delay-2 card-hover bg-surface border border-border p-8 rounded-sm">
+        <div class="text-accent mb-6 w-10 h-10">
+          <!-- Lucide: check-square (coverage / completeness) -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+               stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
+            <polyline points="9 11 12 14 22 4"/>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+          </svg>
+        </div>
+        <h3 class="font-serif text-xl md:text-2xl text-ink mb-3" style="font-weight:500;">
+          Coverage Assessment
+        </h3>
+        <p class="text-muted text-sm leading-relaxed">
+          Automated detection and visualisation of unexamined mucosa.
+          Quantifies inspection completeness with spatial heatmaps,
+          supporting thoroughness and audit-grade documentation.
+        </p>
+      </div>
+
+      <!-- Card 3: AR Navigation -->
+      <div class="fade-up delay-3 card-hover bg-surface border border-border p-8 rounded-sm">
+        <div class="text-accent mb-6 w-10 h-10">
+          <!-- Lucide: crosshair (AR targeting / navigation) -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+               stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="22" y1="12" x2="18" y2="12"/>
+            <line x1="6"  y1="12" x2="2"  y2="12"/>
+            <line x1="12" y1="6"  x2="12" y2="2"/>
+            <line x1="12" y1="22" x2="12" y2="18"/>
+          </svg>
+        </div>
+        <h3 class="font-serif text-xl md:text-2xl text-ink mb-3" style="font-weight:500;">
+          AR Navigation
+        </h3>
+        <p class="text-muted text-sm leading-relaxed">
+          Overlay of anatomical landmarks, navigation vectors, and coverage cues
+          directly onto the live feed — enabling the endoscopist to navigate
+          with spatial context and annotate in real time.
+        </p>
+      </div>
+
+      <!-- Card 4: Quantitative Measurement -->
+      <div class="fade-up delay-4 card-hover bg-surface border border-border p-8 rounded-sm">
+        <div class="text-accent mb-6 w-10 h-10">
+          <!-- Lucide: ruler (metric measurement) -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+               stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
+            <path d="M21.3 8.7 8.7 21.3c-1 1-2.5 1-3.4 0l-2.6-2.6c-1-1-1-2.5 0-3.4L15.3 2.7c1-1 2.5-1 3.4 0l2.6 2.6c1 1 1 2.5 0 3.4Z"/>
+            <path d="m7.5 10.5 2 2"/>
+            <path d="m10.5 7.5 2 2"/>
+            <path d="m13.5 4.5 2 2"/>
+            <path d="m4.5 13.5 2 2"/>
+          </svg>
+        </div>
+        <h3 class="font-serif text-xl md:text-2xl text-ink mb-3" style="font-weight:500;">
+          Quantitative Measurement
+        </h3>
+        <p class="text-muted text-sm leading-relaxed">
+          Metric size estimation of polyps, lesions, and structures from monocular video —
+          replacing subjective visual assessment with calibration-free,
+          reproducible measurements.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<!-- CLiMB CHALLENGE HIGHLIGHT                                                  -->
+<!-- Compact teaser — sits between Technology and Team                          -->
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section class="py-16 bg-bg">
+  <div class="max-w-6xl mx-auto px-6">
+    <div
+      class="fade-up flex flex-col md:flex-row md:items-center gap-8 border border-accent/30 rounded-sm pl-0 overflow-hidden"
+      style="background: rgba(178,235,243,0.13);"
+    >
+      <!-- Left accent bar -->
+      <div class="hidden md:block w-1 self-stretch bg-accent shrink-0"></div>
+
+      <!-- Content -->
+      <div class="flex-1 px-6 md:px-8 py-8">
+        <!-- Label row -->
+        <div class="flex flex-wrap items-center gap-3 mb-4">
+          <span class="label text-accent" style="font-size:0.6rem;">MICCAI 2026 · EndoVis</span>
+          <span
+            class="label border border-accent/30 text-accent px-2 py-0.5 rounded-sm"
+            style="font-size:0.56rem; background: rgba(4,153,169,0.07);"
+          >Open Challenge</span>
+        </div>
+
+        <h2
+          class="font-serif text-ink mb-1 tracking-tight"
+          style="font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.1; font-weight: 500;"
+        >
+          CLiMB Challenge
+        </h2>
+        <p class="label text-muted mb-4" style="font-size:0.62rem; letter-spacing:0.12em;">
+          Colonoscopy Localization and Mapping Benchmark
+        </p>
+
+        <p class="text-muted text-sm leading-relaxed max-w-xl" style="font-weight:300;">
+          We are organizing CLiMB as part of the Endoscopic Vision Challenge (EndoVis)
+          at MICCAI 2026. An open benchmark for 3D mapping and spatial AI methods
+          in colonoscopy.
+        </p>
+      </div>
+
+      <!-- CTA -->
+      <div class="px-6 md:px-8 pb-8 md:pb-0 md:pr-8 shrink-0">
+        <a
+          href="https://www.synapse.org/Synapse:syn74370700/wiki/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 bg-accent text-white px-5 py-2.5 text-sm font-sans font-medium hover:bg-accent/90 transition-colors whitespace-nowrap"
+        >
+          Learn more &amp; register
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<!-- 3. TEAM                                                                    -->
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="team" class="py-24 md:py-32" style="background-color: #EDF6F8;">
+  <div class="max-w-6xl mx-auto px-6">
+
+    <div class="fade-up mb-3">
+      <span class="label text-accent">The People</span>
+    </div>
+    <h2 class="fade-up text-ink mb-6" style="font-size: clamp(2.4rem, 4.5vw, 3.25rem);">Team</h2>
+    <p class="fade-up text-muted text-base md:text-lg mb-16 leading-relaxed" style="font-weight:300;">
+      A blend of young entrepreneurs and world-class experts in Spatial AI,
+      Computer Vision, and clinical endoscopy.
+    </p>
+
+    <!-- Team grid: 3 cols on lg, 2 on md, 1 on mobile -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-16">
+      {team.map((member, i) => (
+        <div class={`fade-up delay-${(i % 4) + 1} text-center`}>
+
+          <!-- Square photo — larger, with initials fallback -->
+          <div class="relative w-64 h-64 mx-auto mb-5">
+            <div
+              class="absolute inset-0 rounded-sm flex items-center justify-center border border-accent/25"
+              style="background: radial-gradient(circle at 35% 35%, rgba(178,235,243,0.45) 0%, rgba(4,153,169,0.1) 100%);"
+            >
+              <span class="font-serif text-accent font-medium text-lg">{member.initials}</span>
+            </div>
+            <!--
+              Place photos at public/images/team/[firstname]-[lastname].jpg (square, ≥ 400×400 px).
+              onerror hides the <img> and reveals the initials backdrop behind it.
+            -->
+            <img
+              src={member.photo}
+              alt={`Photo of ${member.name}`}
+              class="absolute inset-0 w-full h-full rounded-sm object-cover"
+              loading="lazy"
+              onerror="this.style.display='none'"
+            />
+          </div>
+
+          <h3 class="font-serif text-lg text-ink leading-snug mb-1" style="font-weight:500;">
+            {member.name}
+          </h3>
+          <p class="label text-accent mb-3" style="font-size:0.6rem;">{member.role}</p>
+
+          <!-- Social icons row — only icons with a URL are rendered -->
+          {(member.twitter || member.linkedin || member.scholar) && (
+            <div class="flex items-center justify-center gap-4">
+              {member.twitter && (
+                <a href={member.twitter} target="_blank" rel="noopener noreferrer"
+                   class="text-muted hover:text-accent transition-colors" aria-label="Twitter / X">
+                  <!-- X (Twitter) logo -->
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
+                </a>
+              )}
+              {member.linkedin && (
+                <a href={member.linkedin} target="_blank" rel="noopener noreferrer"
+                   class="text-muted hover:text-accent transition-colors" aria-label="LinkedIn">
+                  <!-- LinkedIn logo -->
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+                </a>
+              )}
+              {member.scholar && (
+                <a href={member.scholar} target="_blank" rel="noopener noreferrer"
+                   class="text-muted hover:text-accent transition-colors" aria-label="Google Scholar">
+                  <!-- Academic cap (Google Scholar) -->
+                  <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3z"/>
+                    <path d="M3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762z"/>
+                    <path d="M9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0z"/>
+                  </svg>
+                </a>
+              )}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+
+    <!-- Odin Vision callout -->
+    <div class="fade-up border-t border-accent/20 pt-10 mb-12 text-center">
+      <p class="text-muted text-sm italic">
+        Advised by the founders of
+        <a href="https://odin-vision.com" target="_blank" rel="noopener noreferrer"
+           class="text-ink not-italic font-medium link-accent">Odin Vision</a>
+        — a leading AI endoscopy company acquired in 2023.
+      </p>
+    </div>
+
+    <!-- Consortium logos row -->
+    <div class="fade-up">
+      <p class="label text-muted text-center mb-8">Consortium Partners</p>
+      <div class="flex flex-wrap justify-center gap-5 md:gap-8">
+        {partners.map(p => (
+          <a
+            href={p.href}
+            target="_blank" rel="noopener noreferrer"
+            class="card-hover flex flex-col items-center gap-4 border border-border bg-surface px-8 py-6 rounded-sm hover:border-accent/40 transition-colors min-w-[180px]"
+          >
+            <!--
+              Logo images: place at public/images/logos/[slug].png (or .svg).
+              The wrapper div is hidden via onerror if the image fails to load,
+              leaving only the text name below.
+            -->
+            <div class="h-16 flex items-center justify-center">
+              <img
+                src={p.logo}
+                alt={`${p.name} logo`}
+                class="max-h-16 max-w-[170px] w-auto object-contain transition-transform duration-200 hover:scale-[1.03]"
+                loading="lazy"
+                onerror="this.parentElement.style.display='none'"
+              />
+            </div>
+            <span class="label text-center leading-relaxed" style="font-size:0.56rem;">{p.desc}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<!-- 4. CONTACT                                                                 -->
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="contact" class="py-24 md:py-32 bg-dark text-white">
+  <div class="max-w-3xl mx-auto px-6 text-center">
+
+    <div class="fade-up mb-4">
+      <span class="label text-accent-light/60">Reach Out</span>
+    </div>
+    <h2 class="fade-up font-serif text-white mb-8 tracking-tight"
+        style="font-size: clamp(2rem, 5vw, 3.25rem); font-weight:400;">
+      Get in touch
+    </h2>
+
+    <!-- Email — large, clickable -->
+    <div class="fade-up mb-8">
+      <a
+        href="mailto:endocartoscope@unizar.es"
+        class="font-sans text-xl md:text-2xl font-light text-accent-light hover:text-white transition-colors duration-200"
+        style="letter-spacing: -0.01em;"
+      >
+        endocartoscope@unizar.es
+      </a>
+    </div>
+
+    <!-- Address -->
+    <div class="fade-up mb-14">
+      <p class="text-white/45 text-sm leading-relaxed">
+        Campus Río Ebro, Universidad de Zaragoza, Spain
+      </p>
+    </div>
+
+    <!-- Divider -->
+    <div class="fade-up border-t border-white/10 pt-12">
+
+      <!-- EU funding acknowledgment -->
+      <div class="flex flex-col items-center gap-4">
+        <p class="text-white/30 text-xs leading-relaxed max-w-sm">
+          This project has received funding from the European Union's Horizon Europe
+          research and innovation programme under the EIC Transition grant agreement
+          No. 101211633. Views expressed are those of the project team and do not
+          necessarily reflect the EU's position.
+        </p>
+        <a
+          href="https://cordis.europa.eu/project/id/101211633"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="label text-accent/70 hover:text-accent transition-colors link-accent mt-2"
+          style="font-size:0.6rem;"
+        >
+          View project on CORDIS ↗
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<!-- SCRIPT: Intersection Observer (scroll-reveal fade-up)                      -->
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<script>
+  const fadeObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          fadeObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+  );
+  document.querySelectorAll('.fade-up').forEach(el => fadeObserver.observe(el));
+</script>
+
+</Layout>
