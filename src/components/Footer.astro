@@ -1,0 +1,72 @@
+---
+const navLinks = [
+  { href: '/#technology', label: 'Technology' },
+  { href: '/#team',       label: 'Team'       },
+  { href: '/careers',     label: 'Careers'    },
+  { href: '/media',       label: 'Media'      },
+  { href: '/#contact',    label: 'Contact'    },
+];
+
+---
+
+<footer class="bg-dark text-white">
+  <div class="max-w-7xl mx-auto px-6 pt-16 pb-10">
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 pb-12 border-b border-white/10">
+
+      <!-- Brand -->
+      <div>
+        <p class="font-serif text-2xl text-white mb-2 tracking-tight">EndoCartoScope</p>
+        <p class="label text-accent-light/60 mb-6">Spatial AI for Medical Endoscopy</p>
+        
+      </div>
+
+      <!-- Navigation -->
+      <div>
+        <p class="label text-white/30 mb-5">Navigation</p>
+        <ul class="flex flex-col gap-3">
+          {navLinks.map(link => (
+            <li>
+              <a href={link.href} class="text-white/50 hover:text-white text-sm transition-colors duration-200">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <p class="label text-white/30 mb-5">Contact</p>
+        <a
+          href="mailto:endocartoscope@unizar.es"
+          class="text-white/65 hover:text-white text-sm transition-colors duration-200 block mb-1"
+        >
+          endocartoscope@unizar.es
+        </a>
+        <p class="text-white/30 text-sm mt-4 leading-relaxed">
+          Campus Río Ebro<br />
+          Universidad de Zaragoza, Spain
+        </p>
+      </div>
+    </div>
+
+    <!-- Bottom bar: copyright + EU badge -->
+    <div class="pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-5">
+      <p class="label text-white/20">© 2026 EndoCartoScope. All rights reserved.</p>
+      <div class="flex items-center gap-4">
+        <img
+          src="/images/logos/eu.jpg"
+          alt="European Union flag"
+          class="w-10 h-auto rounded-[2px] object-contain shrink-0"
+          loading="lazy"
+        />
+        <p class="label text-white/25 leading-relaxed" style="font-size:0.58rem;">
+          Funded by the European Union<br />
+          EIC Transition Grant No. 101211633
+        </p>
+      </div>
+    </div>
+
+  </div>
+</footer>

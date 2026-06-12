@@ -1,0 +1,70 @@
+---
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = 'EndoCartoScope is developing a spatial AI perception layer for clinical endoscopes — real-time 3D mapping, coverage assessment, AR navigation, and quantitative measurement. EU EIC Transition project, University of Zaragoza.',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, 'https://endocartoscope.eu');
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph -->
+    <meta property="og:title"       content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type"        content="website" />
+    <meta property="og:url"         content={canonicalURL} />
+    <meta property="og:image"       content="https://endocartoscope.eu/og-image.jpg" />
+    <meta property="og:site_name"   content="EndoCartoScope" />
+
+    <!-- Twitter card -->
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image"       content="https://endocartoscope.eu/og-image.jpg" />
+
+    <title>{title}</title>
+    <link rel="icon" type="image/png" href="/images/logos/ecs.png" />
+    <link rel="apple-touch-icon" href="/images/logos/ecs.png" />
+
+    <!--
+      Font pairing rationale:
+      - Playfair Display: Academic serif used in Nature/Science adjacent branding.
+        Conveys credibility and research depth without feeling archaic.
+      - Space Grotesk: Distinctive geometric sans with humanist details.
+        Used by NASA, ESA, and deeptech companies — technical without being sterile.
+      - Space Mono: Complementary monospace for labels, tags, and metadata.
+        Reinforces the engineering/research identity.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Space+Grotesk:wght@300;400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <Navbar />
+    <!-- No pt-16 on main — hero extends behind transparent navbar intentionally -->
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

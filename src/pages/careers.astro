@@ -1,0 +1,210 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// ── Positions ─────────────────────────────────────────────────────────────────
+// Set open: false to mark a role as closed (greyed out, no apply button).
+const positions = [
+  {
+    id:          'ENG-01',
+    title:       'Computer Vision Engineer',
+    type:        'Full-time / PhD contract',
+    location:    'Zaragoza, Spain',
+    area:        'Engineering',
+    description: 'Work on the core 3D reconstruction and SLAM pipelines. You will develop real-time algorithms for depth estimation and dense mapping in endoscopic environments.',
+    requirements: [
+      'Strong C++ and Python; real-time systems experience required',
+      'Background in SLAM, 3D reconstruction, SfM, or visual odometry',
+      'PhD or equivalent industry track record in CV / Robotics',
+      'Medical imaging or constrained-environment robotics a plus',
+    ],
+    open: true,
+  },
+  {
+    id:          'ENG-02',
+    title:       'Software Engineer',
+    type:        'Full-time',
+    location:    'Zaragoza, Spain',
+    area:        'Engineering',
+    description: 'Work with the team to expand practical use cases, test and harden the existing SLAM pipeline, and support the engineering work needed to make the system compliant with MDR regulations.',
+    requirements: [
+      'Solid software development background and a pragmatic testing mindset',
+      'Ability to work on validation workflows, traceability, and regulated development practices',
+      'Interest in applied computer vision for real clinical environments',
+      'Experience with SLAM, deep learning, or 3D reconstruction is a plus',
+    ],
+    open: true,
+  },
+];
+
+const areaColors: Record<string, string> = {
+  Engineering: 'text-accent border-accent/40',
+  Business:    'text-sky-400 border-sky-400/40',
+  Regulatory:  'text-violet-400 border-violet-400/40',
+};
+
+const openCount = positions.filter(p => p.open).length;
+---
+
+<Layout
+  title="Careers — EndoCartoScope"
+  description="Join EndoCartoScope — open software engineer positions focused on SLAM validation, clinical use cases, and MDR-compliant medical software at the University of Zaragoza."
+>
+
+  <!-- ── Page header (dark, compact — mirrors hero aesthetic) ── -->
+  <section class="bg-dark pt-28 pb-16">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="fade-up mb-3">
+        <span class="label text-accent-light/60">Join Us</span>
+      </div>
+      <h1
+        class="fade-up font-serif text-white mb-5 tracking-tight"
+        style="font-size: clamp(2.2rem, 5vw, 3.5rem); line-height: 1.05; font-weight: 400;"
+      >
+        Build the Future of <em>Intelligent Endoscopy</em>
+      </h1>
+      <p class="fade-up text-white/50 text-base leading-relaxed" style="font-weight: 300;">
+        We are a small, ambitious team at the intersection of AI research and medical
+        technology. 
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Open positions ── -->
+  <section class="py-20 bg-bg">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="fade-up flex items-baseline justify-between mb-4 pb-4 border-b border-border">
+        <span class="label text-muted">Open Positions</span>
+        <span class="label text-accent">{openCount} role{openCount !== 1 ? 's' : ''}</span>
+      </div>
+      <p class="fade-up font-serif text-ink/70 mb-12" style="font-size: clamp(1.25rem, 2vw, 1.6rem); font-weight: 400; font-style: italic;">
+        A small, high-impact team where every hire shapes the direction of the company.
+      </p>
+
+      <!-- Accordion list -->
+      <div class="flex flex-col divide-y divide-border border-t border-border mb-16">
+        {positions.map((pos, i) => (
+          <div class:list={['fade-up', !pos.open && 'opacity-40 pointer-events-none']}>
+
+            <!-- Trigger row -->
+            <button
+              class="accordion-trigger w-full flex items-start md:items-center justify-between gap-4 py-6 text-left group"
+              aria-expanded="false"
+              aria-controls={`acc-${i}`}
+            >
+              <div class="flex flex-col md:flex-row md:flex-wrap md:items-center gap-2 md:gap-4">
+                <!-- Role ID -->
+                <span class="label text-muted hidden md:inline" style="font-size:0.58rem;">{pos.id}</span>
+                <!-- Title -->
+                <span class="font-serif text-lg md:text-xl text-ink group-hover:text-accent transition-colors" style="font-weight:500;">
+                  {pos.title}
+                </span>
+                <!-- Tags -->
+                <span
+                  class:list={['label border px-2 py-0.5 rounded-sm', areaColors[pos.area] || 'text-muted border-border']}
+                  style="font-size:0.56rem;"
+                >
+                  {pos.location}
+                </span>
+                <span class="label border border-border text-muted px-2 py-0.5 rounded-sm" style="font-size:0.56rem;">
+                  {pos.type}
+                </span>
+                {!pos.open && (
+                  <span class="label text-muted" style="font-size:0.56rem;">Closed</span>
+                )}
+              </div>
+              <!-- Chevron -->
+              <svg
+                class="accordion-icon w-4 h-4 text-muted shrink-0 mt-1 md:mt-0"
+                viewBox="0 0 16 16" fill="none" aria-hidden="true"
+              >
+                <path d="M3 6l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+
+            <!-- Collapsible content -->
+            <div id={`acc-${i}`} class="accordion-content">
+              <div class="pb-8 pt-1">
+                <p class="text-ink/75 leading-relaxed mb-6 text-sm md:text-base" style="font-weight:300;">
+                  {pos.description}
+                </p>
+                <p class="label text-muted mb-4">Requirements</p>
+                <ul class="space-y-2.5 mb-7">
+                  {pos.requirements.map(req => (
+                    <li class="flex items-start gap-3 text-sm text-muted leading-relaxed">
+                      <span class="text-accent mt-0.5 shrink-0">—</span>
+                      {req}
+                    </li>
+                  ))}
+                </ul>
+                {pos.open && (
+                  <a
+                    href={`mailto:endocartoscope@unizar.es?subject=Application: ${pos.title} (${pos.id})`}
+                    class="inline-flex items-center gap-2 bg-accent text-white px-5 py-2.5 text-sm font-sans font-medium hover:bg-accent/90 transition-colors"
+                  >
+                    Apply for this role
+                    <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                      <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </a>
+                )}
+              </div>
+            </div>
+
+          </div>
+        ))}
+      </div>
+
+      <!-- Open application -->
+      <div class="fade-up text-center border border-dashed border-border py-10 px-8">
+        <p class="font-serif text-xl text-ink mb-2" style="font-style:italic; font-weight:400;">
+          Don't see your role?
+        </p>
+        <p class="text-muted text-sm mb-5 leading-relaxed max-w-sm mx-auto">
+          We are always interested in meeting talented people passionate about AI,
+          medical devices, or healthtech entrepreneurship.
+        </p>
+        <a
+          href="mailto:endocartoscope@unizar.es?subject=Open Application"
+          class="inline-flex items-center gap-2 border border-accent text-accent px-5 py-2.5 text-sm font-sans font-medium hover:bg-accent hover:text-white transition-colors"
+        >
+          Send an open application
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Scripts ── -->
+  <script>
+    // Scroll-reveal
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }),
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+    // Accordion
+    document.querySelectorAll('.accordion-trigger').forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        const id     = trigger.getAttribute('aria-controls')!;
+        const panel  = document.getElementById(id)!;
+        const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+
+        // Close all
+        document.querySelectorAll('.accordion-trigger').forEach(t => t.setAttribute('aria-expanded', 'false'));
+        document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('open'));
+
+        // Open clicked if was closed
+        if (!isOpen) {
+          trigger.setAttribute('aria-expanded', 'true');
+          panel.classList.add('open');
+        }
+      });
+    });
+  </script>
+
+</Layout>

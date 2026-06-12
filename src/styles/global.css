@@ -1,0 +1,154 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base ──────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  /* Offset for fixed 64px navbar when anchor-jumping */
+  scroll-padding-top: 72px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: #FAFAF8;
+  color: #0D0D0B;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', Georgia, serif;
+  line-height: 1.1;
+}
+
+/* ── Utility: mono label ────────────────────────────────── */
+.label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6B6B65;
+}
+
+/* ── Utility: thin rule ─────────────────────────────────── */
+.rule { border-top: 1px solid #E8E6DF; }
+
+/* ── Utility: card hover lift ───────────────────────────── */
+.card-hover {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 36px rgba(0,0,0,0.07);
+}
+
+/* ── Utility: gradient text (wordmark) ──────────────────── */
+.gradient-text {
+  background: linear-gradient(90deg, #0499A9 0%, #B2EBF3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Utility: underline link ────────────────────────────── */
+.link-accent {
+  position: relative;
+  text-decoration: none;
+}
+.link-accent::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -1px;
+  width: 0; height: 1px;
+  background: #0499A9;
+  transition: width 0.3s ease;
+}
+.link-accent:hover::after { width: 100%; }
+
+/* ── Hero: animated dot grid ────────────────────────────── */
+.hero-grid {
+  background-image: radial-gradient(rgba(4, 153, 169, 0.22) 1px, transparent 1px);
+  background-size: 32px 32px;
+  animation: drift 30s linear infinite;
+}
+
+@keyframes drift {
+  0%   { background-position: 0 0; }
+  100% { background-position: 32px 32px; }
+}
+
+/* ── Hero: CSS animation on page load (no JS needed) ────── */
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-animate {
+  opacity: 0;
+  animation: heroFadeUp 0.8s ease forwards;
+}
+.hero-animate.d1 { animation-delay: 0.10s; }
+.hero-animate.d2 { animation-delay: 0.25s; }
+.hero-animate.d3 { animation-delay: 0.40s; }
+.hero-animate.d4 { animation-delay: 0.55s; }
+.hero-animate.d5 { animation-delay: 0.70s; }
+
+/* ── Scroll-reveal fade-up (IntersectionObserver) ────────── */
+.fade-up {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Stagger helpers — apply alongside .fade-up */
+.fade-up.delay-1 { transition-delay: 0.08s; }
+.fade-up.delay-2 { transition-delay: 0.16s; }
+.fade-up.delay-3 { transition-delay: 0.24s; }
+.fade-up.delay-4 { transition-delay: 0.32s; }
+
+/* ── Navbar: scrolled glass state ────────────────────────── */
+#navbar.scrolled {
+  background-color: rgba(5, 13, 16, 0.93) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(4, 153, 169, 0.15);
+}
+
+/* ── Careers accordion ──────────────────────────────────── */
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.38s ease, opacity 0.3s ease;
+}
+.accordion-content.open {
+  max-height: 480px;
+  opacity: 1;
+}
+.accordion-icon {
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+.accordion-trigger[aria-expanded="true"] .accordion-icon {
+  transform: rotate(180deg);
+}
+
+/* ── Navbar: active section link (toggled by IntersectionObserver) ── */
+/* Defined here (not inline) so Tailwind purge doesn't remove it.     */
+.nav-link-active {
+  color: white !important;
+  opacity: 1   !important;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar          { width: 5px; }
+::-webkit-scrollbar-track    { background: #0D0D0B; }
+::-webkit-scrollbar-thumb    { background: #0499A9; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #B2EBF3; }
