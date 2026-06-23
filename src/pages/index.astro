@@ -274,8 +274,8 @@ const partners = [
       </video>
     </div>
 
-    <!-- 4 feature cards: 2×2 on desktop, 1 col on mobile -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+    <!-- 3 feature cards: 3-across on desktop, 1 col on mobile -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
 
       <!-- Card 1: Real-time 3D Mapping -->
       <div class="fade-up delay-1 card-hover bg-surface border border-border p-8 rounded-sm">
@@ -292,8 +292,9 @@ const partners = [
           Real-time 3D Mapping
         </h3>
         <p class="text-muted text-sm leading-relaxed">
-          Dense reconstruction of the mucosal cavity during a standard procedure,
-          using only the existing camera feed. No depth sensors. No hardware modifications.
+          Dense 3D reconstruction of the explored cavity from the camera feed alone,
+          while simultaneously localising the endoscope within the map.
+          A live SLAM core without hardware modifications.
         </p>
       </div>
 
@@ -311,37 +312,14 @@ const partners = [
           Coverage Assessment
         </h3>
         <p class="text-muted text-sm leading-relaxed">
-          Automated detection and visualisation of unexamined mucosa.
-          Quantifies inspection completeness with spatial heatmaps,
-          supporting thoroughness and audit-grade documentation.
+          Objective measurement of how much mucosa has been inspected.
+          Total coverage scores the whole procedure; local coverage flags
+          unexamined regions live, guiding the endoscopist back before withdrawal.
         </p>
       </div>
 
-      <!-- Card 3: AR Navigation -->
+      <!-- Card 3: Quantitative Measurement -->
       <div class="fade-up delay-3 card-hover bg-surface border border-border p-8 rounded-sm">
-        <div class="text-accent mb-6 w-10 h-10">
-          <!-- Lucide: crosshair (AR targeting / navigation) -->
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-               stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
-            <circle cx="12" cy="12" r="10"/>
-            <line x1="22" y1="12" x2="18" y2="12"/>
-            <line x1="6"  y1="12" x2="2"  y2="12"/>
-            <line x1="12" y1="6"  x2="12" y2="2"/>
-            <line x1="12" y1="22" x2="12" y2="18"/>
-          </svg>
-        </div>
-        <h3 class="font-serif text-xl md:text-2xl text-ink mb-3" style="font-weight:500;">
-          AR Navigation
-        </h3>
-        <p class="text-muted text-sm leading-relaxed">
-          Overlay of anatomical landmarks, navigation vectors, and coverage cues
-          directly onto the live feed — enabling the endoscopist to navigate
-          with spatial context and annotate in real time.
-        </p>
-      </div>
-
-      <!-- Card 4: Quantitative Measurement -->
-      <div class="fade-up delay-4 card-hover bg-surface border border-border p-8 rounded-sm">
         <div class="text-accent mb-6 w-10 h-10">
           <!-- Lucide: ruler (metric measurement) -->
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
@@ -357,16 +335,13 @@ const partners = [
           Quantitative Measurement
         </h3>
         <p class="text-muted text-sm leading-relaxed">
-          Metric size estimation of polyps, lesions, and structures from monocular video —
-          replacing subjective visual assessment with calibration-free,
-          reproducible measurements.
+          Metric size estimation of polyps and lesions from monocular video, with no additional hardware.
         </p>
       </div>
 
     </div>
   </div>
 </section>
-
 
 <!-- ══════════════════════════════════════════════════════════════════════════ -->
 <!-- CLiMB CHALLENGE HIGHLIGHT                                                  -->
